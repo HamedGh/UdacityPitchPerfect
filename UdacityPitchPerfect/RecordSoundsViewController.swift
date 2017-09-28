@@ -24,9 +24,9 @@ class RecordSoundsViewController: UIViewController,AVAudioRecorderDelegate {
     }
     
     @IBAction func recordBtn(_ sender: Any) {
-        recordingLbl.text = "Recording in Progress"
-        stopRecordingBtn.isEnabled = true
-        recordBtn.isEnabled = false
+        
+        recordStop(txt: "Recording in Progress", state: false)
+
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -43,14 +43,19 @@ class RecordSoundsViewController: UIViewController,AVAudioRecorderDelegate {
     }
     
     @IBAction func stopRecording(_ sender: Any) {
-        stopRecordingBtn.isEnabled = false
-        recordBtn.isEnabled = true
-        recordingLbl.text = "Tap to Record"
+        recordStop(txt: "Tap to Record", state: true)
         
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
         
+    }
+    
+    func recordStop(txt:String, state:Bool) {
+        stopRecordingBtn.isEnabled = !state
+        recordBtn.isEnabled = state
+        recordingLbl.text = txt
+
     }
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
@@ -60,6 +65,7 @@ class RecordSoundsViewController: UIViewController,AVAudioRecorderDelegate {
         }
         else {
             print("recording was not successful")
+            self.showAlert("Recording Fails", message: "recording was not successful")
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -70,5 +76,11 @@ class RecordSoundsViewController: UIViewController,AVAudioRecorderDelegate {
             playSoundsVC.recordedAudioUrl = recordedAudioUrl
             
         }
+    }
+    
+    func showAlert(_ title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }

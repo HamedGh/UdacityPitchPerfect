@@ -67,6 +67,19 @@ class PlaySoundsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureUI(.notPlaying)
+        makeImgOfBtnScaleAspectFit()
+    }
+    
+    
+    func makeImgOfBtnScaleAspectFit() {
+        self.snailBtn.imageView?.contentMode = .scaleAspectFit
+        self.rabbitBtn.imageView?.contentMode = .scaleAspectFit
+        self.chipmunkBtn.imageView?.contentMode = .scaleAspectFit
+        self.vaderBtn.imageView?.contentMode = .scaleAspectFit
+        self.reverbBtn.imageView?.contentMode = .scaleAspectFit
+        self.echoBtn.imageView?.contentMode = .scaleAspectFit
+        
+        self.stopBtn.imageView?.contentMode = .scaleAspectFit
     }
 
 }
